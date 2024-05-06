@@ -1,0 +1,144 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+@*<script src="~/lib/jquery/dist/jquery.min.js"></script>*@
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<h1>@ViewData["Title"]</h1>
+<div class="alert-success">
+    <h3>@TempData["RegistrationSuccess"]</h3>
+</div>
+
+@if (ViewData["Message"] != null)
+{
+    <script type="text/javascript">
+            window.onload = function () {
+              //  alert("@ViewData["Message"]");
+                swal({
+                    icon: "success",
+                    title: "User has been registered successfully.",
+                    value: true
+                });
+            };
+    </script>
+}
+<div class="row">
+    <div class="justify-content-center">
+
+        <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+
+            <hr />
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Input.RoleName"></label>
+                <select asp-for="Input.RoleName" class="form-control" id="txtRoliId">
+                    <option value="0">--Select User--</option>
+                    <option value="Customer"> Customer </option>
+                    <option value="Student">Student</option>
+                </select>
+                <span asp-validation-for="Input.RoleName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Email"></label>
+                <input asp-for="Input.Email" class="form-control" id="txtEmail" />
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Password"></label>
+                <input asp-for="Input.Password" class="form-control" id="txtPassword" />
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.ConfirmPassword"></label>
+                <input asp-for="Input.ConfirmPassword" class="form-control" id="txtConfirmPassword" />
+                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary" onclick="validatedata()">Register</button>
+        </form>
+    </div>
+    @*<div class="col-md-6 col-md-offset-2">
+        <section>
+            <h4>Use another service to register.</h4>
+            <hr />
+            @{
+                if ((Model.ExternalLogins?.Count ?? 0) == 0)
+                {
+                    <div>
+                        <p>
+                            There are no external authentication services configured. See <a href="https://go.microsoft.com/fwlink/?LinkID=532715">this article</a>
+                            for details on setting up this ASP.NET application to support logging in via external services.
+                        </p>
+                    </div>
+                }
+                else
+                {*@
+    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+        <div>
+            <p>
+                @foreach (var provider in Model.ExternalLogins)
+                {
+                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+                }
+            </p>
+        </div>
+    </form>
+    @*}
+        }*@
+    @*</section>
+        </div>*@
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+
+@*<script type="text/javascript">
+
+        function validatedata() {
+            //   LoadData();
+
+            //alert("");
+            //var std = {};
+            //std.AuthorName = $("#PublisherName").val();
+
+            var data = {
+                RoleName: $("#txtRoliId").val(),
+                Email: $("#txtEmail").val,
+                Password: $("#txtPassword").val(),
+                ConfirmPassword:$("#txtConfirmPassword").val()
+            }
+            alert(data.RoleName);
+            debugger
+            $.ajax({
+                type: "POST",
+                url: "/Identity/Account/Register/OnPostAsync/",
+                //data: '{AuthorData: ' + JSON.stringify(std) + '}',
+                data: { Input: data, },
+                //dataType: "json",
+                //contentType: "application/json; charset=utf-8",
+                success: function () {
+                    swal({
+                        icon: "success",
+                        title: "User has been registered successfully.",
+                        value: true
+                    });
+                    // swal("Data has been added successfully.");
+                    // LoadData();
+                },
+                error: function () {
+                    swal({
+                        icon: "warning",
+                        title: "Registration  failed",
+                        value: true
+                    });
+                    // swal("Error while inserting data");
+                }
+            });
+            return false;
+
+        }
+
+    </script>*@
+

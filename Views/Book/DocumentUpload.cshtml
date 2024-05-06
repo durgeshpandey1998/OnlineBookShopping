@@ -1,0 +1,115 @@
+﻿@model OnlineBookShopping.Models.DocumentsUpload
+@{
+    ViewData["Title"] = "DocumentUpload";
+    Layout = "~/Views/Shared/_ClientLayout.cshtml";
+}
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<h3>Document Upload</h3>
+
+@if (ViewData["Message"] != null)
+{
+    <script type="text/javascript">
+            window.onload = function () {
+              //  alert("@ViewData["Message"]");
+                swal({
+                    icon: "success",
+                    title: "Document has been uploaded successfully.",
+                    value: true
+                });
+            };
+    </script>
+}
+
+<hr />
+
+<form asp-action="DocumentUpload" asp-controller="Book" method="post" enctype="multipart/form-data">
+    <div class="row mt-4">
+        <div class="col-4">
+            <label class="col-form-label">Enter File Name For Save</label>
+            <input asp-for="FileName" class="form-control" />
+            <span asp-validation-for="FileName" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-4">
+            <label class="col-form-label">Select File</label>
+            <input asp-for="File" class="form-control" id="txtFile" />
+            @*<input type="file" id="txtFile" class="form-control" name="postedFile1"/>*@
+            <span asp-validation-for="File" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-4">
+            <button type="submit" class="btn btn-success">Upload File</button>
+        </div>
+    </div>
+</form>
+
+@*<script type="text/javascript">
+        //$("#txtFile").on('change', function () {
+        //    var File = $('input[type=file]').val();
+        //    var url = "/Book/DocumnetUpload/";
+        //    //formData = new FormData();
+        //    alert(File);
+        //    jQuery.ajax({
+        //        type: 'POST',
+        //        url: url,
+        //        data: {Data:File},
+        //        cache: false,
+        //        contentType: false,
+        //        processData: false,
+        //        beforeSend: function (xhr) {
+        //            xhr.setRequestHeader("XSRF-TOKEN",
+        //                $('input:hidden[name="__RequestVerificationToken"]').val());
+        //        },
+        //        success: function (repo) {
+        //            if (repo.status == "success") {
+        //                alert("File : " + repo.filename + " is uploaded successfully");
+        //            }
+        //        },
+        //        error: function () {
+        //            alert("Error occurs");
+        //        }
+        //    });
+        //});
+        function validatedata() {
+            //var filename = $('input[type=file]').val().replace(/C:\\fakepath\\/i, '')
+
+            debugger;
+            var data = {
+                FileName: $("#FileName").val(),
+                File: $('input[type=file]').val()
+            }
+            alert(data.File);
+
+            $.ajax({
+                type: "POST",
+                url: "/Book/DocumnetUpload/",
+                data:  { Data: data },
+                success: function () {
+                    swal({
+                        icon: "success",
+                        title: "Document has been uploaded successfully.",
+                        value: true
+                    });
+                    // swal("Data has been added successfully.");
+                    // LoadData();
+                },
+                error: function () {
+                    swal({
+                        icon: "warning",
+                        title: "Document  upload failed",
+                        value: true
+                    });
+                    // swal("Error while inserting data");
+                }
+            });
+            return false;
+
+        }
+
+    </script>*@
+

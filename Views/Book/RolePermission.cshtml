@@ -1,0 +1,47 @@
+﻿@model OnlineBookShopping.Models.AssignRole
+
+@{
+    ViewData["Title"] = "RolePermission";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h1>RolePermission</h1>
+
+<h4>AssignRole</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="RolePermission">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label class="control-label"> User Name</label>
+                <select asp-for="UserId" class="form-control">
+                    <option value="0">--Select User--</option>
+                    @foreach (var item in ViewBag.role)
+                    {
+                    <option value="@item.Id">   @item.UserName </option>
+                    }
+                </select>
+                <span asp-validation-for="UserId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Role</label>
+                <select asp-for="RoleId" class="form-control">
+                    <option value="0">--Select Role--</option>
+
+                    <option value="2"> Customer</option>
+                    <option value="3">Student</option>
+
+                </select>
+                <span asp-validation-for="RoleId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Assign Role" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

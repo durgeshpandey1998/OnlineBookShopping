@@ -1,0 +1,91 @@
+﻿@*@model IEnumerable<OnlineBookShopping.Models.BookRentalModel>*@
+
+@model OnlineBookShopping.BookDTO.BookDto
+
+@{
+    ViewData["Title"] = "BookRequestListForUser";
+    Layout = "~/Views/Shared/_ClientLayout.cshtml";
+}
+
+<h3>Book Rent List</h3>
+
+<p>
+    @*<a asp-action="Create">Create New</a>*@
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.BookRentalProperty.Book.BookImage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BookRentalProperty.Book.BookTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BookRentalProperty.BookRequestDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BookRentalProperty.IssueDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BookRentalProperty.ReturnDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BookRentalProperty.Fine)
+            </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.BookRentalProperty.IsIssued)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BookRentalProperty.IsReturn)
+            </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.BookRentalProperty.DelayDay)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.BookRentals)
+        {
+            <tr>
+                <td>
+                    @*@Html.DisplayFor(modelItem => item.UserName)*@
+                    <img src="~/images/@item.Book.BookImage"
+                         class="rounded-circle"
+                         height="40" width="40"
+                         asp-append-version="true" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Book.BookCategory)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BookRequestDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IssueDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReturnDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fine)
+                </td>
+                @*<td>
+                    @Html.DisplayFor(modelItem => item.IsIssued)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsReturn)
+                </td>*@
+                <td>
+                    @Html.DisplayFor(modelItem => item.DelayDay)
+                </td>
+                @*<td>
+                    <a asp-action="Edit" asp-route-id="@item.BookRentId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.BookRentId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.BookRentId">Delete</a>
+                </td>*@
+            </tr>
+        }
+    </tbody>
+</table>

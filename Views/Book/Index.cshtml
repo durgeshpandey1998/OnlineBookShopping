@@ -1,0 +1,156 @@
+﻿@*@model IEnumerable<OnlineBookSHopping.Models.BookModel>*@
+
+@model OnlineBookShopping.BookDTO.BookDto
+@*@model IEnumerable<OnlineBookSHopping.DTO.BookDto>*@
+
+@{
+    ViewData["Title"] = "Index";
+}
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<p>
+    <a asp-action="Create">Add Book</a>
+    <a asp-action="AddAuthor">Add Author</a>
+    <a asp-action="AddPublisher">Add Publisher</a>
+    @*@Html.DisplayNameFor(Model.BookProperty=>Model.BookProperty.BookTitle)*@
+
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(Model => Model.BookProperty.BookTitle)
+                @*<label asp-for="BookProperty.BookTitle" class="control-label"></label>*@
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BookProperty.BookCategory)
+                @*<label asp-for="BookProperty.BookCategory" class="control-label"></label>*@
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BookProperty.BookImage)
+                @*<label asp-for="BookProperty.BookImage" class="control-label"></label>*@
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BookProperty.BookStock)
+                @*<label asp-for="BookProperty.BookStock" class="control-label"></label>*@
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BookProperty.BookPrice)
+                @*<label asp-for="BookProperty.BookPrice" class="control-label"></label>*@
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BookProperty.TotalPage)
+                @*<label asp-for="BookProperty.TotalPage" class="control-label"></label>*@
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AuthorProperty.AuthorName)
+                @*<label asp-for="BookProperty.Author" class="control-label"></label>*@
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PublisherProperty.PublisherName)
+                @*<label asp-for="BookProperty.Publisher" class="control-label"></label>*@
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.book)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BookTitle)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BookCategory)
+                </td>
+                <td>
+                    @*  @Html.DisplayFor(modelItem => item.BookImage)*@
+                    <img src="~/images/@item.BookImage"
+                         class="rounded-circle"
+                         height="40" width="40"
+                         asp-append-version="true" />
+                    @*<img src="~/images/39204bc2-03f9-40f9-aa3b-a49078f5ef1c_obj.png" />*@
+
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BookStock)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BookPrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalPage)
+                </td>
+                <td>
+                    @foreach (var author in Model.Author)
+                    {
+                        @if (item.AuthorId == author.AuhtorId)
+                        {
+                            @Html.DisplayFor(modelItem => author.AuthorName)
+                        }
+                    }
+                </td>
+                <td>
+                    @foreach (var publisher in Model.Publisher)
+                    {
+                        @if (item.PublisherId == publisher.PublisherId)
+                        {
+                            @Html.DisplayFor(modelItem => publisher.PublisherName)
+                        }
+                    }
+                </td>
+                <td>
+                    <a asp-action="EditBook" asp-route-id="@item.BookId" style='display: block; width: 70px; height: 35px;  background: #006400; padding: 10px;text-align: center; border-radius: 5px;color: white; font-weight: bold;line-height: 25px;'>Edit</a> 
+                    @*<a asp-action="Details" asp-route-id="@item.BookId">Details</a> |*@
+                    @*<a asp-action="Delete" asp-route-id="@item.BookId">Delete</a>*@
+                 <p></p>
+                    <form asp-action="Delete">
+                        <input type="hidden" asp-for="@item.BookId" />
+                        <button type="button" class="btn btn-danger" onclick="DeleteBook('@item.BookId')"> Delete</button>
+                        @* <input type="button" value="Delete" onclick="deleteRole('@Model.BookId')"  class="btn btn-danger" /> *@
+
+                    </form>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script type="text/javascript">
+    function DeleteBook(BookId) {
+        debugger;
+        var data2 = {
+            "BookId": BookId
+        }
+        swal({
+            title: "Are you sure?",
+            text: "You Want to Delete!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    debugger;
+                    $.ajax({
+                        type: "GET",
+                        url: "/Book/Delete?BookId=" + BookId,
+                        success: function (data) {
+                            swal("Done", "Your Record Has been Deleted", "success")
+                                .then((value) => {
+                                    window.location.href = "/Book/Index/"
+                                });
+                        },
+                        error: function (error) {
+                            debugger;
+                        }
+                    });
+                }
+
+            });
+    }
+</script>
+
+
+

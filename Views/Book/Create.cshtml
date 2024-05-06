@@ -1,0 +1,152 @@
+﻿@model OnlineBookShopping.BookDTO.BookDto
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h4>Add Book</h4>
+<hr />
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="BookProperty.BookTitle" class="control-label"></label>
+                <input asp-for="BookProperty.BookTitle" class="form-control" id="txtBookTitle" />
+                <span asp-validation-for="BookProperty.BookTitle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BookProperty.BookCategory" class="control-label"></label>
+                <input asp-for="BookProperty.BookCategory" class="form-control" id="txtBookCategory" />
+                <span asp-validation-for="BookProperty.BookCategory" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BookProperty.Description" class="control-label"></label>
+                <input asp-for="BookProperty.Description" class="form-control" id="txtDescription" />
+                <span asp-validation-for="BookProperty.Description" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="BookProperty.BookImage" class="control-label"></label>
+
+                <input asp-for="BookProperty.BookImage" class="form-control" type="file" id="txtBookImage" />
+
+                <span asp-validation-for="BookProperty.BookImage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BookProperty.BookStock" class="control-label"></label>
+                <input asp-for="BookProperty.BookStock" class="form-control" id="txtBookStock" />
+                <span asp-validation-for="BookProperty.BookStock" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BookProperty.BookPrice" class="control-label"></label>
+                <input asp-for="BookProperty.BookPrice" class="form-control" id="txtBookPrice" />
+                <span asp-validation-for="BookProperty.BookPrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BookProperty.TotalPage" class="control-label"></label>
+                <input asp-for="BookProperty.TotalPage" class="form-control" id="txtTotalPage" />
+                <span asp-validation-for="BookProperty.TotalPage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Select Author</label>
+                <select asp-for="BookProperty.AuthorId" class="form-control" id="txtAuthorId">
+                    <option value="0">--Select Author--</option>
+                    @foreach (var item in Model.Author)
+                    {
+                        <option value="@item.AuhtorId">@item.AuthorName</option>
+                    }
+                </select>
+            </div>
+
+
+            <div class="form-group">
+                <label class="control-label">Select Publisher</label>
+                <select asp-for="BookProperty.PublisherId" class="form-control" id="txtPublisherId">
+                    <option value="0">--Select Publisher--</option>
+                    @foreach (var item in Model.Publisher)
+                    {
+                        <option value="@item.PublisherId">@item.PublisherName</option>
+                    }
+                </select>
+            </div>
+
+
+            @*<div class="form-group">
+                    <label asp-for="PublisherId" class="control-label"></label>
+                    <select asp-for="PublisherId" class ="form-control" asp-items="ViewBag.PublisherId"></select>
+                </div>*@
+            <div class="form-group">
+                <input type="button" value="Add Book" class="btn btn-primary" onclick="validatedata()" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    function validatedata() {
+        var filename = $('input[type=file]').val().replace(/C:\\fakepath\\/i, '')
+        alert(filename);
+        var BookProperty = {
+            BookTitle: $("#txtBookTitle").val(),
+            BookCategory: $("#txtBookCategory").val(),
+            Description: $("#txtDescription").val(),
+            BookImage: filename,
+            BookStock: $("#txtBookStock").val(),
+            BookPrice: $("#txtBookPrice").val(),
+            TotalPage: $("#txtTotalPage").val(),
+            AuthorId: $("#txtAuthorId").val(),
+            PublisherId: $("#txtPublisherId").val()
+        }
+        alert(BookProperty.BookImage);
+        var bookDto = {
+            BookProperty: BookProperty
+        }
+        debugger
+        //alert(data.BookTitle);
+        $.ajax({
+            type: "POST",
+            url: "/Book/Create/",
+            //data: '{AuthorData: ' + JSON.stringify(std) + '}',
+            //data: { BookTitle: data },
+            data: { bookDto: bookDto },
+            //dataType: "json",
+            //contentType: "application/json; charset=utf-8",
+            success: function () {
+                swal({
+                    icon: "success",
+                    title: "Book has been added successfully.",
+                    value: true
+                });
+                // swal("Data has been added successfully.");
+                // LoadData();
+            },
+            error: function () {
+                swal({
+                    icon: "warning",
+                    title: "Book added failed",
+                    value: true
+                });
+                // swal("Error while inserting data");
+            }
+        });
+        return false;
+
+    }
+
+</script>
+
+
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

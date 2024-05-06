@@ -1,0 +1,195 @@
+﻿@*@model IEnumerable<OnlineBookShopping.Models.BookRentalModel>*@
+
+@model OnlineBookShopping.BookDTO.BookDto
+@*@inject UserManager<IdentityUser> UserManager*@
+
+@{
+    ViewData["Title"] = "ManageBookRequest";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<h3>Manage Book Request</h3>
+<hr />
+
+@*<ejs-toast id="toast_default" title="Success" content="@ViewBag.toast" icon="e-success toast-icons">
+    </ejs-toast>*@
+@*<form asp-action="ManageBookRequest" method="post">*@
+<p>
+    @*<a asp-action="Create">Create New</a>*@
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.BookRentalProperty.UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BookProperty.BookTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BookRentalProperty.BookRequestDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BookRentalProperty.IssueDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BookRentalProperty.ReturnDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BookRentalProperty.Fine)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BookRentalProperty.IsIssued)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BookRentalProperty.IsReturn)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BookRentalProperty.DelayDay)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.BookRentals)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Book.BookCategory)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BookRequestDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IssueDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReturnDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fine)
+                </td>
+                <td>
+                    @*@Html.DisplayFor(modelItem => item.IsIssued)*@
+
+                    @if (item.IsIssued == true)
+                    {
+                        @*@Html.DisplayFor(modelItem => author.AuthorName)*@
+                        <span style="color:darkred">Issued</span>
+                    }
+                    else
+                    {
+                        <span style="color:darkgreen">Pending</span>
+                    }
+
+                </td>
+                <td>
+                    @*@Html.DisplayFor(modelItem => item.IsReturn)*@
+                    @if (item.IsReturn == true)
+                    {
+                        @*@Html.DisplayFor(modelItem => author.AuthorName)*@
+                        <span style="color:darkgreen">Returned</span>
+                    }
+                    else
+                    {
+                        <span style="color:darkgreen">Pending</span>
+                    }
+
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DelayDay)
+                </td>
+                <td>
+                    <form asp-action="ManageBookRequest1">
+                        <input type="hidden" asp-for="@item.BookId" />
+                        <button type="button" class="btn btn-success" onclick="BookIssue('@item.BookRentId')"> Book         Issue</button>
+                    </form>
+                    <p></p>
+                    @*  <a asp-controller="Book" asp-action="ManageBookRequest1" asp-route-id="@item.BookRentId">Book Issue</a>|*@
+                    @*<a asp-controller="Book" asp-action="ManageBookReturn" asp-route-id="@item.BookRentId">Book Return</a>*@
+                    <form asp-action="ManageBookReturn">
+                        <input type="hidden" asp-for="@item.BookId" />
+                        <button type="button" class="btn btn-success" onclick="BookReturn('@item.BookRentId')"> BookReturn</button>
+                    </form>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script type="text/javascript">
+    function BookIssue(BookRentId) {
+        debugger;
+        var data2 = {
+            "BookId": BookRentId
+        }
+        swal({
+            title: "Are you sure?",
+            text: "You Want to Issue Book!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    debugger;
+                    $.ajax({
+                        type: "GET",
+                        url: "/Book/ManageBookRequest1?BookRentId=" + BookRentId,
+                        success: function (data) {
+                            swal("Done", "Book Has been Issued", "success")
+                                .then((value) => {
+                                    window.location.href = "/Book/Index/"
+                                });
+                        },
+                        error: function (error) {
+                          
+                                swal("Failed", "Book not Issued", "error")
+                        }
+                    });
+                }
+
+            });
+    }
+</script>
+
+
+<script type="text/javascript">
+    function BookReturn(BookRentId) {
+        debugger;
+        var data2 = {
+            "BookId": BookRentId
+        }
+        swal({
+            title: "Are you sure?",
+            text: "You Want to Return Book!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    debugger;
+                    $.ajax({
+                        type: "GET",
+                        url: "/Book/ManageBookReturn?BookRentId=" + BookRentId,
+                        success: function (data) {
+                            swal("Done", "Book Has been Returned.", "success")
+                                .then((value) => {
+                                    window.location.href = "/Book/Index/"
+                                });
+                        },
+                        error: function (error) {
+                            swal("Failed", "Book return failed", "error")
+                        }
+                    });
+                }
+
+            });
+    }
+</script>

@@ -1,0 +1,24 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@*<h3 style="color:darkred">Token Expired</h3>*@
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+@if (ViewData["Message"] != null)
+{
+    <script type="text/javascript">
+            window.onload = function () {
+              //  alert("@ViewData["Message"]");
+                swal({
+                    icon: "warning",
+                    title: "Link has been expired.",
+                    value: true
+                });
+            };
+    </script>
+}

@@ -1,0 +1,76 @@
+﻿@model OnlineBookShopping.Models.PublisherModel
+
+@{
+    ViewData["Title"] = "AddPublisher";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<hr />
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<h4>Publisher</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddPublisher">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="PublisherName" class="control-label"></label>
+                <input asp-for="PublisherName" class="form-control" />
+                <span asp-validation-for="PublisherName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="button" value="Add Publisher" class="btn btn-primary"  onclick="validatedata()" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    function validatedata() {
+        //   LoadData();
+
+        //alert("");
+        //var std = {};
+        //std.AuthorName = $("#PublisherName").val();
+
+        var data = {
+            PublisherName: $("#PublisherName").val()
+        }
+        debugger
+        $.ajax({
+            type: "POST",
+            url: "/Book/AddPublisher/",
+            //data: '{AuthorData: ' + JSON.stringify(std) + '}',
+            data: { PublisherData: data,  },
+            //dataType: "json",
+            //contentType: "application/json; charset=utf-8",
+            success: function () {
+                swal({
+                    icon: "success",
+                    title: "Publisher has been added successfully.",
+                    value: true
+                });
+                // swal("Data has been added successfully.");
+                // LoadData();
+            },
+            error: function () {
+                swal({
+                    icon: "warning",
+                    title: "Publisher added failed",
+                    value: true
+                });
+                // swal("Error while inserting data");
+            }
+        });
+        return false;
+
+    }
+
+</script>
+
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

@@ -1,0 +1,70 @@
+﻿@model OnlineBookShopping.Models.AuthorModel
+
+@{
+    ViewData["Title"] = "AddAuthor";
+    Layout = null;
+}
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+<script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<h4>Author</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+       
+           
+            <div class="form-group">
+                <label asp-for="AuthorName" class="control-label"></label>
+                <input id="txtAuthorName" class="form-control" />
+            </div>
+            <div class="form-group">
+                <input class="btn btn-primary" type="submit" id="submit" value="Add Author" onclick="return validate()" />
+            </div>
+        
+    </div>
+</div>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+
+<script>
+        function validate() {
+            debugger;
+
+            if ($("#issuccess").val() == true) {
+                swal("Added Success !");
+                return false; 
+            } else {
+                return true;
+            }
+        }
+        $(document).ready(function () {
+            $("#submit").click(function (e) {
+                debugger;
+                var AuthorData = {
+                    Brand: $("#txtAuthorName").val()
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "AddAuthor",    @* '@Url.Action("AddCarModel")',*@
+                    data: JSON.stringify(AuthorData),
+                        dataType: "json",
+                            contentType: "application/json; charset=utf-8",
+                                success: function (result) {
+                                    console.log(result);
+                                    swal("Data has been added successfully.");
+                                  /*  window.location = "https://localhost:44317/Car/Datatable";*/
+                                },
+                error: function (errormessage) {
+                    debugger
+                    swal("Data Not Added Successfully.");
+                }
+            });
+            swal("Enter Author Name !");
+        });
+
+    </script>

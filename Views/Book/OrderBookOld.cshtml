@@ -1,0 +1,76 @@
+﻿@model OnlineBookShopping.Models.BookModel
+
+@{
+    ViewData["Title"] = "OrderBook";
+    Layout = "~/Views/Shared/_ClientLayout.cshtml";
+}
+
+<div>
+    <h4>Book Detail</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.BookTitle)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.BookTitle)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.BookCategory)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.BookCategory)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.BookImage)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.BookImage)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.BookStock)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.BookStock)
+        </dd>
+        <dt class = "col-sm-2">
+          @*  @Html.DisplayNameFor(model => model.BookPrice)*@
+            Book Price
+        </dt>
+        <dd class="col-sm-2">
+            @*@Html.DisplayFor(model => model.BookPrice)*@
+            <input asp-for="BookPrice" class="form-control" readonly />
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TotalPage)
+            
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TotalPage)
+           
+        </dd>
+        @*<dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Author)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Author.AuhtorId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Publisher)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Publisher.PublisherId)
+        </dd>
+    </dl>*@
+</div>
+<div>
+    <a asp-action="OrderBook" asp-route-id="@Model.BookId">Payment</a> |
+    <a asp-action="Index">Back to List</a>|
+    <input type="submit" value="Pay" class="btn btn-primary" />
+</div>

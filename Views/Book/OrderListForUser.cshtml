@@ -1,0 +1,80 @@
+﻿@*@model IEnumerable<OnlineBookShopping.Models.BookSellModel>*@
+@model OnlineBookShopping.BookDTO.BookDto
+@{
+    ViewData["Title"] = "OrderListForUser";
+    Layout = "~/Views/Shared/_ClientLayout.cshtml";
+}
+
+<h4>Order History</h4>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.BookSellProperty.Book.BookImage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BookSellProperty.Book.BookTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BookSellProperty.Payment)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BookSellProperty.PurchaseDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BookSellProperty.Quantity)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.BookSell)
+        {
+        <tr>
+            <td>
+                @*@Html.DisplayFor(modelItem => item.UserName)*@
+                @foreach (var bookimage in Model.book)
+                {
+                    @if (item.BookId == bookimage.BookId)
+                    {
+                        <img src="~/images/@bookimage.BookImage"
+                             class="rounded-circle"
+                             height="40" width="40"
+                             asp-append-version="true" />
+                    }
+                }
+                @*<img src="~/images/@item.Book.BookImage"
+                     class="rounded-circle"
+                     height="50" width="50"
+                     asp-append-version="true" />*@
+            </td>
+            @foreach (var book in Model.book)
+            {
+                @if (book.BookId==item.BookId)
+                {
+                    @*@Html.DisplayFor(modelItem => author.AuthorName)*@
+                    <td>
+                        @Html.DisplayFor(modelItem => book.BookTitle)
+                    </td>
+                }
+            }
+            <td>
+                @Html.DisplayFor(modelItem => item.Payment)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PurchaseDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            @*<td>
+            <a asp-action="Edit" asp-route-id="@item.OrderId">Edit</a> |
+            <a asp-action="Details" asp-route-id="@item.OrderId">Details</a> |
+            <a asp-action="Delete" asp-route-id="@item.OrderId">Delete</a>
+        </td>*@
+        </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,162 @@
+﻿@model OnlineBookShopping.Models.BookModel
+
+@{
+    ViewData["Title"] = "BookRequest";
+    Layout = "~/Views/Shared/_ClientLayout.cshtml";
+}
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<h3>Book Request</h3>
+<hr />
+<div>
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="BookRequest">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="BookId" />
+                @*<div class="form-group">
+                    <label asp-for="UserName" class="control-label"></label>
+                    <input asp-for="UserName" class="form-control" />
+                    <span asp-validation-for="UserName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="BookId" class="control-label"></label>
+                    <select asp-for="BookId" class="form-control" asp-items="@ViewBag.BookId"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="BookRequestDate" class="control-label"></label>
+                    <input asp-for="BookRequestDate" class="form-control" />
+                    <span asp-validation-for="BookRequestDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="IssueDate" class="control-label"></label>
+                    <input asp-for="IssueDate" class="form-control" />
+                    <span asp-validation-for="IssueDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ReturnDate" class="control-label"></label>
+                    <input asp-for="ReturnDate" class="form-control" />
+                    <span asp-validation-for="ReturnDate" class="text-danger"></span>
+                </div>*@
+
+                <div class="form-group">
+                    <label asp-for="BookTitle" class="control-label"></label>
+                    <input asp-for="BookTitle" class="form-control" readonly />
+                    <span asp-validation-for="BookTitle" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="BookCategory" class="control-label"></label>
+                    <input asp-for="BookCategory" class="form-control" readonly />
+
+                    <span asp-validation-for="BookCategory" class="text-danger"></span>
+                </div>
+                @*<div class="form-group">
+                    <label asp-for="BookImage" class="control-label"></label>
+                    <input asp-for="BookImage" class="form-control" />
+                    <span asp-validation-for="BookImage" class="text-danger"></span>
+                </div>*@
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"></label>
+                    <input asp-for="Description" class="form-control" readonly />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="BookStock" class="control-label"></label>
+                    <input asp-for="BookStock" class="form-control" readonly />
+                    <span asp-validation-for="BookStock" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="BookPrice" class="control-label"></label>
+                    <input asp-for="BookPrice" class="form-control" readonly />
+                    <span asp-validation-for="BookPrice" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TotalPage" class="control-label"></label>
+                    <input asp-for="TotalPage" class="form-control" readonly />
+                    <span asp-validation-for="TotalPage" class="text-danger"></span>
+                </div>
+
+                @*<div class="form-group">
+                    <label asp-for="Fine" class="control-label"></label>
+                    <input asp-for="Fine" class="form-control" />
+                    <span asp-validation-for="Fine" class="text-danger"></span>
+                </div>
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="IsIssued" /> @Html.DisplayNameFor(model => model.IsIssued)
+                    </label>
+                </div>
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="IsReturn" /> @Html.DisplayNameFor(model => model.IsReturn)
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DelayDay" class="control-label"></label>
+                    <input asp-for="DelayDay" class="form-control" />
+                    <span asp-validation-for="DelayDay" class="text-danger"></span>
+                </div>*@
+                <div class="form-group">
+                    <input type="button" value="Request Book" class="btn btn-primary" onclick="validatedata()" />
+                </div>
+            </form>
+        </div>
+
+
+        <script type="text/javascript">
+
+            function validatedata() {
+                //   LoadData();
+
+                //alert("");
+                //var std = {};
+                //std.AuthorName = $("#PublisherName").val();
+
+                var data = {
+                    BookId: $("#BookId").val(),
+                    BookTitle: $("#BookTitle").val(),
+                    BookCategory: $("#BookCategory").val(),
+                    Description: $("#Description").val(),
+                    BookStock: $("#BookStock").val(),
+                    BookPrice: $("#BookPrice").val(),
+                    TotalPage: $("#TotalPage").val(),
+                    Quantity: $("#Quantity").val()        
+                }
+               
+                $.ajax({
+                    type: "POST",
+                    url: "/Book/BookRequest/",
+                    //data: '{AuthorData: ' + JSON.stringify(std) + '}',
+                    data: { Data: data },
+                    //dataType: "json",
+                    //contentType: "application/json; charset=utf-8",
+                    success: function () {
+                        swal({
+                            icon: "success",
+                            title: "Book Request successfully.",
+                            value: true
+                        });
+                        // swal("Data has been added successfully.");
+                        // LoadData();
+                    },
+                    error: function () {
+                        swal({
+                            icon: "warning",
+                            title: "Book Request failed",
+                            value: true
+                        });
+                        // swal("Error while inserting data");
+                    }
+                });
+                return false;
+
+            }
+
+        </script>
+
+
+    </div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

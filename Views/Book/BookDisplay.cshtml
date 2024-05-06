@@ -1,0 +1,108 @@
+﻿@*@model IEnumerable<OnlineBookSHopping.Models.BookModel>*@
+@using Microsoft.AspNetCore.Identity
+@model OnlineBookShopping.BookDTO.BookDto
+@inject UserManager<IdentityUser> UserManager
+@*@model IEnumerable<OnlineBookSHopping.DTO.BookDto>*@
+
+
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_ClientLayout.cshtml";
+}
+<p>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @*@Html.DisplayNameFor(Model.BookProperty=>Model.BookProperty.BookTitle)*@
+                <label asp-for="BookProperty.BookTitle" class="control-label"></label>
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.BookCategory)*@
+                <label asp-for="BookProperty.BookCategory" class="control-label"></label>
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.BookImage)*@
+                <label asp-for="BookProperty.BookImage" class="control-label"></label>
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.BookStock)*@
+                <label asp-for="BookProperty.BookStock" class="control-label"></label>
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.BookPrice)*@
+                <label asp-for="BookProperty.BookPrice" class="control-label"></label>
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.TotalPage)*@
+                <label asp-for="BookProperty.TotalPage" class="control-label"></label>
+            </th>
+            <th>
+             @*   @Html.DisplayNameFor(model => model.Author)*@
+                <label asp-for="BookProperty.Author" class="control-label"></label>
+            </th>
+            <th>
+              @*  @Html.DisplayNameFor(model => model.Publisher)*@
+                <label asp-for="BookProperty.Publisher" class="control-label"></label>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.book)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BookTitle)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BookCategory)
+                </td>
+                <td>
+                   @* @Html.DisplayFor(modelItem => item.BookImage)*@
+                    <img src="~/images/@item.BookImage"
+                         class="rounded-circle"
+                         height="40" width="40"
+                         asp-append-version="true" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BookStock)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BookPrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalPage)
+                </td>
+                <td>
+                    @foreach (var author in Model.Author)
+                    {
+                        @if (item.AuthorId == author.AuhtorId)
+                        {
+                            @Html.DisplayFor(modelItem => author.AuthorName)
+                        }
+                    }
+                </td>
+                <td>
+                    @foreach (var publisher in Model.Publisher)
+                    {
+                        @if (item.PublisherId == publisher.PublisherId)
+                        {
+                            @Html.DisplayFor(modelItem => publisher.PublisherName)
+                        }
+                    }
+                </td>
+                <td>
+                    @*<a asp-action="OrderBook" asp-route-id="@item.BookId,@item.BookPrice, @UserManager.GetUserName(User),@DateTime.Today">Buy Book</a>*@
+                    <!--<a href="@Url.Action("OrderBook","Book", new{ID = @item.BookId, Price = @item.BookPrice, UserName = @UserManager.GetUserName(User), @DateTime.Today })">Buy Book</a>--><!---->
+                    <a asp-action="OrderBook" asp-route-id="@item.BookId">Order Book</a>
+                    @*   @Html.ActionLink("Buy Book", "OrderBook", new { ID = @item.BookId, Price = @item.BookPrice, UserName = @UserManager.GetUserName(User), @DateTime.Today })|*@
+
+                    <a asp-action="BookRequest" asp-route-id="@item.BookId">Rent Book</a> |
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

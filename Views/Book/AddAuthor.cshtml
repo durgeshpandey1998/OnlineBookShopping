@@ -1,0 +1,147 @@
+﻿@model OnlineBookShopping.Models.AuthorModel
+
+@{
+    ViewData["Title"] = "AddAuthor";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+@*<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>*@
+@*<link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />*@
+@*<script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>*@
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<h4>Author</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddAuthor">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="AuthorName" class="control-label"></label>
+                <input type="text" id="txtAuthor" class="form-control" />
+                <span asp-validation-for="AuthorName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="button" value="Add Author" class="btn btn-primary" id="btnSave" onclick="validatedata()"  />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+
+    function validatedata() {
+        //   LoadData();
+         
+            //alert("");
+            var std = {};
+            std.AuthorName = $("#txtAuthor").val();
+       
+        var data = {
+            AuthorName: $("#txtAuthor").val()
+        }
+        debugger
+            $.ajax({
+                type: "POST",
+                url: "/Book/AddAuthor/",
+                //data: '{AuthorData: ' + JSON.stringify(std) + '}',
+                data: { AuthorData: data },
+                //dataType: "json",
+                //contentType: "application/json; charset=utf-8",
+                success: function () {
+                    swal({
+                        icon: "success",
+                        title: "Author has been added successfully.",
+                        value:true
+                    });
+                   // swal("Data has been added successfully.");
+                    // LoadData();
+                },
+                error: function () {
+                    swal({
+                        icon: "warning",
+                        title: "Author added failed",
+                        value:true
+                    });
+                   // swal("Error while inserting data");
+                }
+            });
+            return false;
+        
+                             }
+
+</script>
+
+
+
+
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@*<script>
+        $(document).ready(function () {
+            debugger;
+           // $("#submit").click(function (e) {
+            $(document).on('click', '#submit', function () {
+                var at = document.getElementById("txtAuthor").value;
+                debugger;
+                var AuthorData = {
+                    AuthorName: at
+                }
+                $.ajax({
+                    type: "POST",
+                    url:"AddAuthor",
+                    data: JSON.stringify(AuthorData),
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (result) {
+                        console.log(result);
+                        swal("Data has been added successfully.");
+                    },
+                    error: function (errormessage) {
+                        debugger
+                        swal("Data Not Added Successfully.");
+                    }
+                });
+                alert(AuthorData.AuthorName);
+                swal("Please enter OrderPrice !");
+            });
+        });
+    </script>*@
+
+@*<script>
+        $(document).ready(function () {
+            alert("test");
+                $("#submit").click(function (e) {
+        debugger;
+           var at = document.getElementById("txtAuthor").value;
+                    debugger;
+                    var AuthorData = {
+                        AuthorName: at
+                    }
+                    $.ajax({
+                        type: "POST",
+                        url: "AddAuthor",
+    data: JSON.stringify(AuthorData),
+                            dataType: "json",
+                                contentType: "application/json; charset=utf-8",
+                                    success: function (result) {
+                                        console.log(result);
+                                        swal("Data has been added successfully.");
+                                      /*  window.location = "https://localhost:44317/Car/Datatable";*/
+                                    },
+                    error: function (errormessage) {
+                        debugger
+                        swal("Data Not Added Successfully.");
+                        }
+
+                swal("Please enter OrderPrice !");
+                });
+            });
+
+    </script>*@

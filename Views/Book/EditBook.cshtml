@@ -1,0 +1,86 @@
+﻿@*@model OnlineBookShopping.Models.BookModel*@
+
+@model OnlineBookShopping.BookDTO.BookDto
+
+@{
+    ViewData["Title"] = "EditBook";
+}
+@Model.BookProperty.BookTitle
+<h4>BookModel</h4>
+<hr />
+<div class="alert-success" style="text-align:center">
+    <h3 style="color:darkgreen"> @TempData["Message"] </h3>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="EditBook">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="BookProperty.BookId" />
+            <div class="form-group">
+                <label asp-for="BookProperty.BookTitle" class="control-label"></label>
+                <input asp-for="BookProperty.BookTitle" class="form-control" />
+                <span asp-validation-for="BookProperty.BookTitle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BookProperty.BookCategory" class="control-label"></label>
+                <input asp-for="BookProperty.BookCategory" class="form-control" />
+                <span asp-validation-for="BookProperty.BookCategory" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BookProperty.BookImage" class="control-label"></label>
+                <input asp-for="BookProperty.BookImage" class="form-control" type="file" value="@Model.BookProperty.BookImage." />
+                <span asp-validation-for="BookProperty.BookImage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BookProperty.Description" class="control-label"></label>
+                <input asp-for="BookProperty.Description" class="form-control" />
+                <span asp-validation-for="BookProperty.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BookProperty.BookStock" class="control-label"></label>
+                <input asp-for="BookProperty.BookStock" class="form-control" />
+                <span asp-validation-for="BookProperty.BookStock" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BookProperty.BookPrice" class="control-label"></label>
+                <input asp-for="BookProperty.BookPrice" class="form-control" />
+                <span asp-validation-for="BookProperty.BookPrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BookProperty.TotalPage" class="control-label"></label>
+                <input asp-for="BookProperty.TotalPage" class="form-control" />
+                <span asp-validation-for="BookProperty.TotalPage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BookProperty.AuthorId" class="control-label"></label>
+                <select asp-for="BookProperty.AuthorId" class="form-control">
+                    <option value="0">--Select Author--</option>
+                    @foreach (var item in Model.Author)
+                    {
+                        <option value="@item.AuhtorId">@item.AuthorName</option>
+                    }
+                </select>
+                <span asp-validation-for="BookProperty.AuthorId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BookProperty.PublisherId" class="control-label"></label>
+                <select asp-for="BookProperty.PublisherId" class="form-control">
+                    @foreach (var item in Model.Publisher)
+                    {
+                        <option value="@item.PublisherId">@item.PublisherName</option>
+                    }
+                </select>
+                <span asp-validation-for="BookProperty.PublisherId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
